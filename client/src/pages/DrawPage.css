@@ -2,29 +2,44 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2rem;
+  justify-content: center;
+  min-height: calc(100vh - 120px);
   padding: 2rem;
+}
+
+.draw-content {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 3rem;
+}
+
+.card-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
 }
 
 .card-container {
   perspective: 1000px;
 }
 
-.draw-button {
-  font-size: 1.25rem;
-  padding: 1rem 2.5rem;
-  min-width: 200px;
+.instruction-text {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  text-align: center;
+  opacity: 0.8;
 }
 
 .card-info {
-  text-align: center;
-  max-width: 400px;
-  animation: fadeIn 0.5s ease-in;
+  max-width: 300px;
+  animation: slideFromBehind 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
 .card-info h2 {
   font-size: 1.75rem;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.75rem;
   color: var(--secondary);
 }
 
@@ -33,13 +48,37 @@
   line-height: 1.6;
 }
 
-@keyframes fadeIn {
+@keyframes slideFromBehind {
   from {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateX(-60px);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateX(0);
+  }
+}
+
+/* Mobile responsive - stack vertically */
+@media (max-width: 768px) {
+  .draw-content {
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .card-info {
+    text-align: center;
+    animation: slideUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 }

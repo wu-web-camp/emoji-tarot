@@ -2,13 +2,37 @@
   width: 220px;
   height: 340px;
   cursor: pointer;
+  position: relative;
+}
+
+/* Glow element behind the card */
+.card-glow {
+  position: absolute;
+  inset: -20px;
+  border-radius: 30px;
+  background: radial-gradient(
+    circle at center,
+    rgba(138, 43, 226, 0.6) 0%,
+    rgba(138, 43, 226, 0.3) 40%,
+    transparent 70%
+  );
+  filter: blur(20px);
+  opacity: 0;
+  transition: opacity 0.3s ease-out;
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* Show glow on hover when not flipped */
+.tarot-card:not(.flipped):hover .card-glow {
+  opacity: 1;
 }
 
 .card-inner {
   position: relative;
   width: 100%;
   height: 100%;
-  transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transition: transform 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   transform-style: preserve-3d;
 }
 
@@ -63,15 +87,29 @@
 
 /* Hover effect when not flipped */
 .tarot-card:not(.flipped):hover .card-inner {
-  transform: rotateY(10deg);
+  transform: rotateY(10deg) scale(1.02);
 }
 
-/* Glow effect */
+/* Loading state pulse */
+.tarot-card.loading .card-inner {
+  animation: pulse 1s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.98);
+  }
+}
+
+/* Glow effect on flipped card */
 .tarot-card.flipped .card-back {
-  animation: glow 2s ease-in-out infinite alternate;
+  animation: cardGlow 2s ease-in-out infinite alternate;
 }
 
-@keyframes glow {
+@keyframes cardGlow {
   from {
     box-shadow: 0 10px 40px rgba(246, 224, 94, 0.3);
   }
