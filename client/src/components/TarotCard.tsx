@@ -5,18 +5,19 @@ import "./TarotCard.css";
 interface TarotCardProps {
   card: Card | null;
   isFlipped: boolean;
+  isClosing?: boolean;
   onClick?: () => void;
   isLoading?: boolean;
 }
 
-function TarotCard({ card, isFlipped, onClick, isLoading }: TarotCardProps) {
+function TarotCard({ card, isFlipped, isClosing, onClick, isLoading }: TarotCardProps) {
   const cardRef = useRef<HTMLDivElement>(null);
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
   const [glowPosition, setGlowPosition] = useState({ x: 50, y: 50 });
   const [isHovering, setIsHovering] = useState(false);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (isFlipped || !cardRef.current) return;
+    if (!cardRef.current) return;
 
     const rect = cardRef.current.getBoundingClientRect();
     const x = e.clientX - rect.left;
@@ -35,7 +36,7 @@ function TarotCard({ card, isFlipped, onClick, isLoading }: TarotCardProps) {
   };
 
   const handleMouseEnter = () => {
-    if (!isFlipped) setIsHovering(true);
+    setIsHovering(true);
   };
 
   const handleMouseLeave = () => {
@@ -47,14 +48,21 @@ function TarotCard({ card, isFlipped, onClick, isLoading }: TarotCardProps) {
   const cardClasses = [
     "tarot-card",
     isFlipped ? "flipped" : "",
+    isClosing ? "closing" : "",
     isLoading ? "loading" : "",
   ]
     .filter(Boolean)
     .join(" ");
 
-  const cardInnerStyle = !isFlipped && isHovering ? {
-    transform: `rotateX(${tilt.x}deg) rotateY(${tilt.y}deg) scale(1.05) translateY(-10px)`,
-  } : undefined;
+  const getCardInnerStyle = () => {
+    if (!isHovering) return undefined;
+
+    const baseRotateY = isFlipped ? 180 : 0;
+    return {
+      transform: `rotateX(${tilt.x}deg) rotateY(${baseRotateY + tilt.y}deg) scale(1.05) translateY(-10px)`,
+      transition: 'transform 0.15s ease-out',
+    };
+  };
 
   const glowStyle = {
     background: `radial-gradient(circle at ${glowPosition.x}% ${glowPosition.y}%, rgba(180, 100, 255, 0.9) 0%, rgba(138, 43, 226, 0.6) 25%, rgba(100, 50, 200, 0.3) 50%, transparent 75%)`,
@@ -71,7 +79,7 @@ function TarotCard({ card, isFlipped, onClick, isLoading }: TarotCardProps) {
       onMouseLeave={handleMouseLeave}
     >
       <div className="card-glow" style={glowStyle} />
-      <div className="card-inner" style={cardInnerStyle}>
+      <div className="card-inner" style={getCardInnerStyle()}>
         <div className="card-front">
           <div className="card-pattern">
             <span>🃏</span>

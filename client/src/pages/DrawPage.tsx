@@ -8,8 +8,10 @@ import "./DrawPage.css";
 function DrawPage() {
   const [card, setCard] = useState<Card | null>(null);
   const [isFlipped, setIsFlipped] = useState(false);
+  const [isClosing, setIsClosing] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
+  const [isAnimating, setIsAnimating] = useState(false);
 
   // Fetch initial card on mount
   useEffect(() => {
@@ -17,28 +19,36 @@ function DrawPage() {
   }, []);
 
   const handleCardClick = async () => {
-    if (isLoading) return;
+    if (isLoading || isAnimating || isClosing) return;
 
     if (isFlipped) {
-      // Close the card and fetch new one in background
-      setIsFlipped(false);
+      // Close the card with animation
+      setIsClosing(true);
       setShowDetails(false);
-      setIsLoading(true);
 
-      try {
-        const newCard = await fetchRandomCard();
-        setCard(newCard);
-      } catch (error) {
-        console.error("Failed to fetch card:", error);
-      } finally {
-        setIsLoading(false);
-      }
+      // Wait for close animation, then fetch new card
+      setTimeout(async () => {
+        setIsFlipped(false);
+        setIsClosing(false);
+        setIsLoading(true);
+
+        try {
+          const newCard = await fetchRandomCard();
+          setCard(newCard);
+        } catch (error) {
+          console.error("Failed to fetch card:", error);
+        } finally {
+          setIsLoading(false);
+        }
+      }, 800);
     } else {
       // Open the card (reveal it)
       if (card) {
         setIsFlipped(true);
-        // Show details after flip animation completes (1.2s)
+        setIsAnimating(true);
+        // Allow clicks again after flip animation completes (1.2s)
         setTimeout(() => {
+          setIsAnimating(false);
           setShowDetails(true);
         }, 1200);
       }
@@ -53,6 +63,7 @@ function DrawPage() {
             <TarotCard
               card={card}
               isFlipped={isFlipped}
+              isClosing={isClosing}
               onClick={handleCardClick}
               isLoading={isLoading}
             />
@@ -60,9 +71,11 @@ function DrawPage() {
           <p className="instruction-text">
             {isLoading
               ? "Shuffling..."
-              : isFlipped
-                ? "Click to close and draw again"
-                : "Click to reveal your fate"}
+              : isClosing
+                ? "Closing..."
+                : isFlipped
+                  ? "Click to close and draw again"
+                  : "Click to reveal your fate"}
           </p>
           <Link to="/manage" className="manage-link">Manage Deck</Link>
         </div>

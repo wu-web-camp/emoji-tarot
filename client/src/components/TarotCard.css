@@ -17,10 +17,7 @@
   pointer-events: none;
 }
 
-/* Show glow on hover when not flipped */
-.tarot-card:not(.flipped):hover .card-glow {
-  opacity: 1;
-}
+/* Glow opacity is controlled via JavaScript */
 
 .card-inner {
   position: relative;
@@ -33,6 +30,12 @@
 .tarot-card.flipped .card-inner {
   transition: transform 1.2s cubic-bezier(0.4, 0, 0.2, 1);
   transform: rotateY(180deg);
+}
+
+/* Closing animation - flip back with smooth transition */
+.tarot-card.closing .card-inner {
+  transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: rotateY(0deg);
 }
 
 .card-front,
