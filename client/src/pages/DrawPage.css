@@ -1,0 +1,45 @@
+.draw-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  padding: 2rem;
+}
+
+.card-container {
+  perspective: 1000px;
+}
+
+.draw-button {
+  font-size: 1.25rem;
+  padding: 1rem 2.5rem;
+  min-width: 200px;
+}
+
+.card-info {
+  text-align: center;
+  max-width: 400px;
+  animation: fadeIn 0.5s ease-in;
+}
+
+.card-info h2 {
+  font-size: 1.75rem;
+  margin-bottom: 0.5rem;
+  color: var(--secondary);
+}
+
+.card-info p {
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

@@ -1,0 +1,44 @@
+.card-form h3 {
+  margin-bottom: 1rem;
+  color: var(--secondary);
+}
+
+.form-row {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: var(--text-muted);
+  font-size: 0.875rem;
+}
+
+.emoji-group {
+  flex: 0 0 100px;
+}
+
+.emoji-input {
+  text-align: center;
+  font-size: 1.5rem;
+}
+
+.name-group {
+  flex: 1;
+}
+
+.form-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+}
+
+.form-actions button {
+  min-width: 120px;
+}

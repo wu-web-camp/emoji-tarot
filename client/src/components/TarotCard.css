@@ -1,0 +1,81 @@
+.tarot-card {
+  width: 220px;
+  height: 340px;
+  cursor: pointer;
+}
+
+.card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transform-style: preserve-3d;
+}
+
+.tarot-card.flipped .card-inner {
+  transform: rotateY(180deg);
+}
+
+.card-front,
+.card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+}
+
+.card-front {
+  background: linear-gradient(145deg, #2d1b69 0%, #1a0f3c 100%);
+  border: 3px solid #4a2c8a;
+}
+
+.card-pattern {
+  font-size: 5rem;
+  opacity: 0.6;
+}
+
+.card-back {
+  background: linear-gradient(145deg, #f6e05e 0%, #d69e2e 100%);
+  transform: rotateY(180deg);
+  border: 3px solid #d69e2e;
+  gap: 1rem;
+}
+
+.card-emoji {
+  font-size: 6rem;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+}
+
+.card-name {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #1a0f3c;
+  text-align: center;
+  padding: 0 1rem;
+}
+
+/* Hover effect when not flipped */
+.tarot-card:not(.flipped):hover .card-inner {
+  transform: rotateY(10deg);
+}
+
+/* Glow effect */
+.tarot-card.flipped .card-back {
+  animation: glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+  from {
+    box-shadow: 0 10px 40px rgba(246, 224, 94, 0.3);
+  }
+  to {
+    box-shadow: 0 10px 60px rgba(246, 224, 94, 0.5);
+  }
+}
