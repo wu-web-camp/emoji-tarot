@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import type { Card } from "../types";
 import { fetchRandomCard } from "../api/cards";
 import TarotCard from "../components/TarotCard";
@@ -10,29 +11,37 @@ function DrawPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
 
-  const handleDraw = async () => {
+  // Fetch initial card on mount
+  useEffect(() => {
+    fetchRandomCard().then(setCard).catch(console.error);
+  }, []);
+
+  const handleCardClick = async () => {
     if (isLoading) return;
 
-    setIsLoading(true);
-    setIsFlipped(false);
-    setShowDetails(false);
+    if (isFlipped) {
+      // Close the card and fetch new one in background
+      setIsFlipped(false);
+      setShowDetails(false);
+      setIsLoading(true);
 
-    try {
-      const newCard = await fetchRandomCard();
-      // Small delay for animation reset
-      setTimeout(() => {
+      try {
+        const newCard = await fetchRandomCard();
         setCard(newCard);
-        setIsFlipped(true);
+      } catch (error) {
+        console.error("Failed to fetch card:", error);
+      } finally {
         setIsLoading(false);
-
+      }
+    } else {
+      // Open the card (reveal it)
+      if (card) {
+        setIsFlipped(true);
         // Show details after flip animation completes (1.2s)
         setTimeout(() => {
           setShowDetails(true);
         }, 1200);
-      }, 300);
-    } catch (error) {
-      console.error("Failed to draw card:", error);
-      setIsLoading(false);
+      }
     }
   };
 
@@ -44,17 +53,18 @@ function DrawPage() {
             <TarotCard
               card={card}
               isFlipped={isFlipped}
-              onClick={handleDraw}
+              onClick={handleCardClick}
               isLoading={isLoading}
             />
           </div>
           <p className="instruction-text">
             {isLoading
-              ? "Drawing..."
+              ? "Shuffling..."
               : isFlipped
-                ? "Click the card to draw again"
-                : "Click the card to reveal your fate"}
+                ? "Click to close and draw again"
+                : "Click to reveal your fate"}
           </p>
+          <Link to="/manage" className="manage-link">Manage Deck</Link>
         </div>
 
         {card && showDetails && (

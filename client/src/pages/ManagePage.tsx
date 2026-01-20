@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import type { Card, CreateCardDto } from "../types";
 import {
   fetchCards,
@@ -61,6 +62,7 @@ function ManagePage() {
 
   return (
     <div className="manage-page">
+      <Link to="/" className="back-link">← Back to Draw</Link>
       <div className="manage-header">
         <h2>Manage Your Deck</h2>
         <button onClick={() => setIsAdding(true)} disabled={isAdding || editingCard !== null}>
