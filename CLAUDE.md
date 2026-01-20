@@ -5,44 +5,45 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Project Overview
 
 Emoji Tarot is a workshop teaching project for TypeScript API 101 with Express. It consists of:
-- **Frontend**: React app for drawing tarot cards with emoji faces and animations
+- **Frontend**: React + Vite app with animated card interactions
 - **Backend**: Express API for card data and management
 
 ## Architecture
 
 ```
 emoji-tarot/
-├── client/           # React frontend
-│   ├── src/
-│   │   ├── components/   # React components
-│   │   ├── pages/        # Page components (Draw, Manage)
-│   │   └── api/          # API client functions
-│   └── public/
-├── server/           # Express backend
-│   ├── src/
-│   │   ├── routes/       # API routes
-│   │   ├── data/         # Card data storage
-│   │   └── types/        # TypeScript types
-│   └── package.json
-└── shared/           # Shared types between client/server
+├── client/               # React frontend
+│   └── src/
+│       ├── api/          # Typed fetch wrappers
+│       ├── components/   # TarotCard, CardForm
+│       ├── pages/        # DrawPage, ManagePage
+│       └── types/        # Card, DTO interfaces
+├── server/               # Express backend
+│   └── src/
+│       ├── data/         # In-memory card storage
+│       ├── routes/       # API route handlers
+│       └── types/        # Card, DTO interfaces
+└── package.json          # Root scripts for monorepo
 ```
+
+**Note**: Types are duplicated between client and server (not shared via package).
 
 ## Development Commands
 
 ```bash
 # Install dependencies
-bun install
+npm install
 
-# Run development servers
-bun run dev           # Start both client and server
-bun run dev:client    # Start frontend only
-bun run dev:server    # Start backend only
+# Run development servers (both)
+npm run dev
 
-# Build
-bun run build
+# Run individual servers
+npm run dev:client    # Frontend only
+npm run dev:server    # Backend only
 
-# Type checking
-bun run typecheck
+# Build and type check
+npm run build
+npm run typecheck
 ```
 
 ## API Endpoints
@@ -67,7 +68,8 @@ interface Card {
 }
 ```
 
-## Key Features
+## Key Implementation Details
 
-1. **Card Drawing Page**: Animated card flip revealing random emoji tarot card with meaning
-2. **Card Management Page**: CRUD interface for managing card deck
+- **Data Storage**: In-memory array (no database)
+- **Testing**: No testing framework configured
+- **Build**: Client uses Vite, server uses bun/esbuild

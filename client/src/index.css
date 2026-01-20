@@ -8,17 +8,15 @@
   --primary: #6b46c1;
   --primary-dark: #553c9a;
   --secondary: #f6e05e;
-  --bg-dark: #1a1a2e;
-  --bg-card: #16213e;
+  --bg-dark: #0a0a0a;
+  --bg-card: #141414;
   --text-light: #f5f5f5;
   --text-muted: #a0aec0;
 }
 
 body {
   font-family: "Segoe UI", system-ui, sans-serif;
-  background:
-    radial-gradient(ellipse at center, rgba(75, 0, 130, 0.3) 0%, transparent 70%),
-    linear-gradient(135deg, #1a0a2e 0%, #0d0d1a 100%);
+  background: #0a0a0a;
   color: var(--text-light);
   min-height: 100vh;
 }
