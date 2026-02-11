@@ -25,5 +25,4 @@ build
 !/CLAUDE.md
 
 # package lock
-client/package-lock.json
-server/package-lock.json
+package-lock.json
