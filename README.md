@@ -21,7 +21,7 @@ Emoji Tarot เป็นโปรเจคสอนการพัฒนา Type
 ก่อนเริ่มใช้งาน ต้องติดตั้ง dependencies สำหรับทั้ง server และ client ก่อนนะคะ:
 
 ```bash
-npm install
+npm run install:all
 ```
 
 คำสั่งนี้จะติดตั้ง packages ที่จำเป็นทั้งหมดให้อัตโนมัติ
