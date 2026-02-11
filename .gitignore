@@ -23,3 +23,7 @@ build
 # Project docs (allow root only)
 **/CLAUDE.md
 !/CLAUDE.md
+
+# package lock
+client/package-lock.json
+server/package-lock.json
