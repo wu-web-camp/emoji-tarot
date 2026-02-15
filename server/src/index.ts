@@ -10,7 +10,12 @@ const PORT = process.env.PORT || 3001;
 // - origin: ['http://localhost:5173']
 // - methods: ['GET', 'POST', 'PUT', 'DELETE']
 // - allowedHeaders: ['Content-Type']
-app.use(cors());
+const corsOptions = {
+    origin: ['http://localhost:5173'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type']
+};
+app.use(cors(corsOptions));
 
 // Middleware
 app.use(express.json());
@@ -22,17 +27,20 @@ app.use("/api/cards", cardsRouter);
 // TODO: Implement ข้อ 1
 // สร้าง GET endpoint /api/health
 // ส่งคืน { status: "ok" }
+app.get("/api/health", (req, res) => {
+    res.json({ status: "ok" });
+});
 
 // ข้อ 16: Error Handling Middleware
 // TODO: Implement ข้อ 16
 // สร้าง error handling middleware
-// app.use((err, req, res, next) => {
-//   console.error(err.stack);
-//   res.status(500).json({
-//     success: false,
-//     error: 'Something went wrong!'
-//   });
-// });
+app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
+    console.error(err.stack);
+    res.status(500).json({
+        success: false,
+        error: 'Something went wrong!'
+    });
+});
 
 // Start server
 app.listen(PORT, () => {
