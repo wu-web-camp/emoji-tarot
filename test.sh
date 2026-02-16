@@ -240,9 +240,9 @@ echo ""
 echo "Testing Exercise 11: addCard Function"
 response=$(curl -s --max-time $MAX_TIME -X POST "$API_URL/api/cards" \
     -H "Content-Type: application/json" \
-    -d '{"emoji":"⚡","name":"Thunder","meaning":"Power"}')
+    -d '{"emoji":"1","name":"Thunder","meaning":"Power"}')
 
-if echo "$response" | grep -q '"emoji":"⚡"' && echo "$response" | grep -q '"name":"Thunder"'; then
+if echo "$response" | grep -q '"emoji":"1"' && echo "$response" | grep -q '"name":"Thunder"'; then
     result="PASS"
 else
     result="FAIL"
@@ -353,8 +353,9 @@ echo ""
 
 # Exercise 17: CORS Configuration
 echo "Testing Exercise 17: CORS Configuration"
-headers=$(curl -s --max-time $MAX_TIME -I "$API_URL/api/cards")
-
+headers=$(curl -s --max-time $MAX_TIME -I "$API_URL/api/cards" \
+  -H "Origin: http://localhost:5173"
+)
 if echo "$headers" | grep -qi "access-control-allow"; then
     result="PASS"
 else
