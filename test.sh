@@ -353,7 +353,9 @@ echo ""
 
 # Exercise 17: CORS Configuration
 echo "Testing Exercise 17: CORS Configuration"
-headers=$(curl -s --max-time $MAX_TIME -I "$API_URL/api/cards")
+headers=$(curl -s --max-time $MAX_TIME -I "$API_URL/api/cards" \
+  -H "Origin: http://localhost:5173"
+)
 
 if echo "$headers" | grep -qi "access-control-allow"; then
     result="PASS"
